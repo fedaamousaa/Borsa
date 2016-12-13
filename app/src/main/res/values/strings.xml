@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Borsa</string>
+    <string name="go">go</string>
+    <string name="company_name">company name</string>
+    <string name="stock">stock</string>
+    <string name="buy">buy</string>
+    <string name="sell">sell</string>
+</resources>
