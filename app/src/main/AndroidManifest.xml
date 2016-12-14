@@ -15,7 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MarketOverView"></activity>
+        <activity android:name=".MarketOverView" />
+        <activity android:name=".LogIn"/>
+        <activity android:name=".Menu"/>
+
     </application>
 
 </manifest>
