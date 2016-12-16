@@ -1,7 +1,6 @@
 package com.gradproject.borsa;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -23,8 +22,7 @@ GridView grid;
         grid=(GridView)findViewById(R.id.grid);
         company c= new company(this,R.layout.custom_item, companyname);
         grid.setAdapter(c);
-        Intent intent=new Intent(this,Menu.class);
-        startActivity(intent);
+
     }
 
     public class company extends ArrayAdapter{

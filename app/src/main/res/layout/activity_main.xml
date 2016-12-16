@@ -8,12 +8,39 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.gradproject.borsa.MainActivity">
 
     <Button
         android:id="@+id/go"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/go" />
+        android:text="market overview" />
+    <Button
+        android:id="@+id/goo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="menu" />
+    <Button
+        android:id="@+id/gooo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="login" />
 
+    <Button
+        android:id="@+id/logoPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logo"
+        />
+    <Button
+        android:id="@+id/logoGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="guide" />
+    <Button
+        android:id="@+id/logoSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="setting" />
 </LinearLayout>
