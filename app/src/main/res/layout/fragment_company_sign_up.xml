@@ -1,0 +1,132 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gradproject.borsa.CompanySignUp">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up As a Company: "
+            android:textSize="25dp"
+            android:layout_weight="2"
+            />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            />
+        <EditText
+            android:id="@+id/name2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter name"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            />
+
+
+        <TextView
+            android:id="@+id/mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="E-mail "
+            android:textSize="20dp"
+            android:layout_weight="1"
+
+            />
+        <EditText
+            android:id="@+id/mail2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter e-mail address"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="enter address"
+            android:textSize="20dp"
+            android:layout_weight="1"
+
+            />
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone Number"
+            android:textSize="20dp"
+            android:layout_weight="1"
+
+            />
+        <EditText
+            android:id="@+id/phone2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter phone number"
+            android:textSize="20dp"
+            android:layout_weight="1"
+
+            />
+        <TextView
+            android:id="@+id/pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textSize="20dp"
+            android:layout_weight="1"
+
+            />
+        <EditText
+            android:id="@+id/pass2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter password"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            />
+
+        <EditText
+            android:id="@+id/con"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="confirm password"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="DONE"
+            android:textSize="20sp"
+            android:layout_marginLeft="120dp"
+            android:layout_weight="1"
+
+
+            />
+    </LinearLayout>
+
+
+</FrameLayout>
+
+

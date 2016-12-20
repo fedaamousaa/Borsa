@@ -17,10 +17,17 @@
         </activity>
         <activity android:name=".MarketOverView" />
         <activity android:name=".LogIn" />
-        <activity android:name=".Menu" />
         <activity android:name=".Logo" />
         <activity android:name=".guides" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings"/>
+        <activity android:name=".BrokerDetails"/>
+        <activity android:name=".SignUp"/>
+        <activity android:name=".Orange" />
+        <activity android:name=".Search" />
+        <activity android:name=".BrokersListActivity"/>
+
+
+
     </application>
 
 </manifest>

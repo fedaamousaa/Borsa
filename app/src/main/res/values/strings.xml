@@ -12,6 +12,8 @@
     <string name="pass">password</string>
     <string name="email_or_user_name">Email or user name</string>
     <string name="logo">logo</string>
+    <string name="open">Open</string>
+    <string name="close">close</string>
     <string name="create_new_account">Create New Account</string>
     <string name="application_color">Application color :</string>
     <string name="application_language">application language :</string>

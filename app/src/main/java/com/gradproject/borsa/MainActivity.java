@@ -1,68 +1,75 @@
 package com.gradproject.borsa;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-Button button ,c,z,logo,guide,settings;
+    Button button,  z;
+    ActionBarDrawerToggle drawerToggle;
+    DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button=(Button)findViewById(R.id.go);
-        c=(Button)findViewById(R.id.goo);
-        z=(Button)findViewById(R.id.gooo);
 
-        logo=(Button)findViewById(R.id.logoPage);
-        guide=(Button)findViewById(R.id.logoGuide);
-        settings=(Button)findViewById(R.id.logoSetting);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-        c.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent in=new Intent(MainActivity.this,Menu.class);
-                startActivity(in);
-            }
-        });
+
+
+        Drawer();
+        button = (Button) findViewById(R.id.go);
+
+        z = (Button) findViewById(R.id.gooo);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in=new Intent(MainActivity.this,MarketOverView.class);
+                Intent in = new Intent(MainActivity.this, MarketOverView.class);
                 startActivity(in);
             }
         });
         z.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in=new Intent(MainActivity.this,LogIn.class);
-                startActivity(in);
-            }
-        });
-
-        logo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent in=new Intent(MainActivity.this,Logo.class);
-               startActivity(in);
-         }
-        });
-        guide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent in=new Intent(MainActivity.this,guides.class);
-                startActivity(in);
-            }
-        });
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent in=new Intent(MainActivity.this,Settings.class);
+                Intent in = new Intent(MainActivity.this, LogIn.class);
                 startActivity(in);
             }
         });
 
     }
+
+    public void Drawer() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(drawerToggle);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else{
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
