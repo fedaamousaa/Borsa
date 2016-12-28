@@ -26,8 +26,9 @@
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="start_up_screen">Start up screen :</string>
-    <string name="company">Company</string>
+    <string name="company">Companies</string>
     <string name="brokers">Brokers</string>
     <string name="news">News</string>
     <string name="reset">Reset</string>
+    <string name="skip">Skip</string>
 </resources>

@@ -6,13 +6,13 @@
         android:title="@string/log_in"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:icon="@drawable/log"/>
+        android:icon="@drawable/login"/>
     <item
         android:id="@+id/companies"
         android:title="@string/company"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:icon="@drawable/company"/>
+        android:icon="@drawable/companies"/>
     <item
         android:id="@+id/brokers"
         android:title="@string/brokers"
