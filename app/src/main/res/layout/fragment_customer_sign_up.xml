@@ -8,29 +8,25 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"> 
-        
+        android:layout_height="match_parent">
+
         <TextView
-            android:id="@+id/sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign Up As a Customer : "
         android:textSize="25dp"
-            android:layout_weight="10"
+        android:layout_weight="1"
+        android:id="@+id/textView" />
 
-
-        />
         <TextView
-            android:id="@+id/first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="First Name"
             android:textSize="20dp"
             android:layout_weight="1"
-
-
             />
         <EditText
+            android:id="@+id/fstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter first name"
@@ -38,7 +34,6 @@
             android:layout_weight="1"
             />
         <TextView
-            android:id="@+id/last"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Last Name"
@@ -48,13 +43,14 @@
 
             />
         <EditText
+            android:id="@+id/last"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter last name"
             android:textSize="20dp"
             android:layout_weight="1"
             />
-        <TextView
+      <!--  <TextView
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,25 +66,24 @@
             android:textSize="20dp"
             android:layout_weight="1"
 
-            />
+            />-->
         <TextView
-            android:id="@+id/mail"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="E-mail address"
             android:textSize="20dp"
             android:layout_weight="1"
-
-
             />
 
         <EditText
+            android:id="@+id/mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter e-mail address"
             android:textSize="20dp"
             android:layout_weight="1"
-            android:id="@+id/editText" />
+            />
 
         <TextView
             android:id="@+id/pass"
@@ -102,30 +97,32 @@
             />
 
         <EditText
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter password"
             android:textSize="20dp"
             android:layout_weight="1"
-            android:id="@+id/editText2" />
-
-        <TextView
-            android:id="@+id/confirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="confirm"
-            android:textSize="20dp"
-            android:layout_weight="1"
-
             />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="confirm password"
-            android:textSize="20dp"
-            android:layout_weight="1"
-            />
+
+        <!-- <TextView
+             android:id="@+id/confirm"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="confirm"
+             android:textSize="20dp"
+             android:layout_weight="1"
+
+             />
+         <EditText
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:hint="confirm password"
+             android:textSize="20dp"
+             android:layout_weight="1"
+             />-->
         <Button
+            android:id="@+id/submit"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="DONE"

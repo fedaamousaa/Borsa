@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gradproject.borsa.Settings">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="com.gradproject.borsa.Settings">
-
-
+    android:orientation="vertical">
     <RelativeLayout
-        android:id="@+id/rel_color"
-        android:layout_width="match_parent"
+    android:id="@+id/rel_color"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1">
+    <TextView
+        android:id="@+id/color"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <TextView
-            android:id="@+id/color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/application_color"
-            android:textSize="25sp"/>
-        <Button
-            android:id="@+id/btBlack"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="#181818"
-            android:layout_toRightOf="@+id/color"
-            android:layout_toEndOf="@+id/color"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="30dp"
-            />
+        android:text="@string/application_color"
+        android:textSize="25sp"/>
+    <Button
+        android:id="@+id/btBlack"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="#181818"
+        android:layout_toRightOf="@+id/color"
+        android:layout_toEndOf="@+id/color"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        />
 
-        <Button
-            android:id="@+id/btWhite"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="#f1f1f1"
-            android:layout_toRightOf="@+id/btBlack"
-            android:layout_toEndOf="@+id/btBlack"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="30dp"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/color"
-            android:layout_marginTop="5dp"
-            android:background="#884b4949"
-            />
+    <Button
+        android:id="@+id/btWhite"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="#f1f1f1"
+        android:layout_toRightOf="@+id/btBlack"
+        android:layout_toEndOf="@+id/btBlack"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/color"
+        android:layout_marginTop="5dp"
+        android:background="#884b4949"
+        />
 
-    </RelativeLayout>
+</RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rel_Lang"
@@ -216,7 +217,9 @@
             android:text="@string/reset"
             android:textSize="25sp"/>
     </RelativeLayout>
-
-
-
 </LinearLayout>
+
+
+
+
+</android.support.v7.widget.CardView>

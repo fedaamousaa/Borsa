@@ -5,126 +5,166 @@
     tools:context="com.gradproject.borsa.CompanySignUp">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/sign"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign Up As a Company: "
-            android:textSize="25dp"
-            android:layout_weight="2"
-            />
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:textSize="20dp"
-            android:layout_weight="1"
-            />
-        <EditText
-            android:id="@+id/name2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter name"
-            android:textSize="20dp"
-            android:layout_weight="1"
-            />
+            android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sign Up As a Company: "
+                android:textSize="25sp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                />
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter name"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textSize="20sp"
+                android:layout_weight="1"
 
-        <TextView
-            android:id="@+id/mail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="E-mail "
-            android:textSize="20dp"
-            android:layout_weight="1"
+                />
+            <EditText
+                android:id="@+id/phone2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter phone number"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="E-mail "
+                android:textSize="20sp"
+                android:layout_weight="1"
+                />
+            <EditText
+                android:id="@+id/mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter e-mail address"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                />
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter address"
+                android:textSize="20dp"
+                android:layout_weight="1"
 
-            />
-        <EditText
-            android:id="@+id/mail2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter e-mail address"
-            android:textSize="20dp"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Address"
-            android:textSize="20dp"
-            android:layout_weight="1"
-            />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="enter address"
-            android:textSize="20dp"
-            android:layout_weight="1"
+                />
 
-            />
-        <TextView
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Phone Number"
-            android:textSize="20dp"
-            android:layout_weight="1"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                android:textSize="20sp"
+                android:layout_weight="1"
 
-            />
-        <EditText
-            android:id="@+id/phone2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter phone number"
-            android:textSize="20dp"
-            android:layout_weight="1"
+                />
+            <EditText
+                android:id="@+id/pass2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter password"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="longitude"
+                android:textSize="20sp" />
+            <EditText
+                android:id="@+id/longitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter longitude"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="latitude"
+                android:textSize="20sp" />
+            <EditText
+                android:id="@+id/latitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter latitude"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="com_number"
+                android:textSize="20sp" />
+            <EditText
+                android:id="@+id/com_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter com_number"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="tax_number"
+                android:textSize="20sp" />
+            <EditText
+                android:id="@+id/tax_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter tax_number"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                />
+            <Button
+                android:id="@+id/done"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="DONE"
+                android:textSize="20sp"
+                android:layout_marginLeft="120dp"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
 
-            />
-        <TextView
-            android:id="@+id/pass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Password"
-            android:textSize="20dp"
-            android:layout_weight="1"
-
-            />
-        <EditText
-            android:id="@+id/pass2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter password"
-            android:textSize="20dp"
-            android:layout_weight="1"
-            />
-
-        <EditText
-            android:id="@+id/con"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="confirm password"
-            android:textSize="20dp"
-            android:layout_weight="1"
-            />
-
-        <Button
-            android:id="@+id/done"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:text="DONE"
-            android:textSize="20sp"
-            android:layout_marginLeft="120dp"
-            android:layout_weight="1"
-
-
-            />
-    </LinearLayout>
+    </ScrollView>
 
 
 </FrameLayout>
