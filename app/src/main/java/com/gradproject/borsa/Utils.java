@@ -21,7 +21,7 @@ public class Utils {
     public Utils(Context context){
         this.context=context;
     }
-    private static String Domain="http://Borsa.herokuapp.com";
+    private static String Domain="borsa.herokuapp.com";
     private String getRequest(String url)throws IOException{
         String data;
         BufferedReader reader;
@@ -43,7 +43,7 @@ public class Utils {
         data=stringBuffer.toString();
         return data;
     }
-    private static String postRequest(String url, JSONObject params)throws IOException{
+    public static String postRequest(String url, JSONObject params)throws IOException{
         URL url1=new URL(Domain+url);
         HttpURLConnection connection=(HttpURLConnection)url1.openConnection();
         connection.setRequestProperty("Authorization","627562626c6520617069206b6579");
@@ -77,12 +77,14 @@ public class Utils {
         JSONObject json;
         String response = postRequest(Domain + "/signupBroker", params);
         json= new JSONObject(response);
+        Log.d("response",response);
         return json;
     }
     public static JSONObject signUpCustomer (JSONObject params)throws IOException,JSONException{
         JSONObject json;
         String response=postRequest(Domain+"/signupCostomer",params);
         json=new JSONObject(response);
+
         return json;
     }
     public static JSONObject signUpCompany (JSONObject params)throws IOException,JSONException{
