@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 public class LogIn extends AppCompatActivity {
-TextView signup;
+    TextView signup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,11 +18,11 @@ TextView signup;
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        signup=(TextView)findViewById(R.id.newuser);
-       signup.setOnClickListener(new View.OnClickListener() {
+        signup = (TextView) findViewById(R.id.newuser);
+        signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in =new Intent(LogIn.this,SignUp.class);
+                Intent in = new Intent(LogIn.this, SignUp.class);
                 startActivity(in);
             }
         });

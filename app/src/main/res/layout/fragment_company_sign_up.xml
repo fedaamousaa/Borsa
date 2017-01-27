@@ -1,31 +1,15 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gradproject.borsa.CompanySignUp">
-
-    <!-- TODO: Update blank fragment layout -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/sign"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sign Up As a Company: "
-                android:textSize="25sp"
-                android:layout_weight="1"
-                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Name"
-                android:textSize="20sp"
                 android:layout_weight="1"
                 />
             <EditText
@@ -33,7 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter name"
-                android:textSize="20sp"
+                android:inputType="text"
                 android:layout_weight="1"
                 />
             <TextView
@@ -41,7 +25,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Phone Number"
-                android:textSize="20sp"
                 android:layout_weight="1"
 
                 />
@@ -51,13 +34,13 @@
                 android:layout_height="wrap_content"
                 android:hint="Enter phone number"
                 android:textSize="20sp"
+                android:inputType="phone"
                 android:layout_weight="1"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="E-mail "
-                android:textSize="20sp"
                 android:layout_weight="1"
                 />
             <EditText
@@ -65,14 +48,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter e-mail address"
-                android:textSize="20sp"
+                android:inputType="textEmailAddress"
                 android:layout_weight="1"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Address"
-                android:textSize="20dp"
                 android:layout_weight="1"
                 />
             <EditText
@@ -80,16 +62,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="enter address"
-                android:textSize="20dp"
                 android:layout_weight="1"
-
+                android:inputType="text"
                 />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Password"
-                android:textSize="20sp"
                 android:layout_weight="1"
 
                 />
@@ -98,59 +78,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter password"
-                android:textSize="20sp"
+                android:inputType="textPassword"
                 android:layout_weight="1"
                 />
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="longitude" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/longitude"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="enter longitude"-->
+                <!--android:layout_weight="1"-->
+                <!--/>-->
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="latitude" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/latitude"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="enter latitude"-->
+                <!--android:layout_weight="1"-->
+                <!--/>-->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="longitude"
-                android:textSize="20sp" />
-            <EditText
-                android:id="@+id/longitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="enter longitude"
-                android:textSize="20dp"
-                android:layout_weight="1"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="latitude"
-                android:textSize="20sp" />
-            <EditText
-                android:id="@+id/latitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="enter latitude"
-                android:textSize="20dp"
-                android:layout_weight="1"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="com_number"
-                android:textSize="20sp" />
+                android:text="commercial number" />
             <EditText
                 android:id="@+id/com_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="enter com_number"
-                android:textSize="20dp"
-                android:layout_weight="1"
-                />
+                android:hint="enter commercial number"
+                android:layout_weight="1" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="tax_number"
-                android:textSize="20sp" />
+                android:text="tax_number" />
             <EditText
                 android:id="@+id/tax_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="enter tax_number"
-                android:textSize="20dp"
                 android:layout_weight="1"
                 />
             <Button
@@ -158,15 +129,10 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:text="DONE"
-                android:textSize="20sp"
-                android:layout_marginLeft="120dp"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 />
         </LinearLayout>
 
     </ScrollView>
-
-
-</FrameLayout>
-
 

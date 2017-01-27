@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gradproject.borsa">
-   <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,29 +13,29 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
-
-       <!-- <activity android:name=".MarketOverView" />-->
-        <activity android:name=".LogIn"  android:parentActivityName=".MainActivity"/>
-        <activity android:name=".Logo" >
-
+        <!-- <activity android:name=".MarketOverView" />-->
+        <activity
+            android:name=".LogIn"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".Logo">
         </activity>
         <activity android:name=".guides" >
         </activity>
         <activity android:name=".Settings"  />
-        <activity android:name=".BrokerDetails"  />
         <activity android:name=".SignUp"  android:parentActivityName=".LogIn"/>
         <activity android:name=".Orange"  />
         <activity android:name=".Search"  />
        <!-- <activity android:name=".Companies" />-->
         <activity android:name=".BrokersListActivity"/>
-
-
-
+        <activity android:name=".BrokerDetails">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

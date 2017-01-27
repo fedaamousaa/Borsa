@@ -36,8 +36,8 @@ EditText name,phone, email, address, password, longitude, latitude, com_number, 
         email=(EditText)view.findViewById(R.id.mail);
         address=(EditText)view.findViewById(R.id.address);
         password=(EditText)view.findViewById(R.id.pass2);
-        longitude=(EditText)view.findViewById(R.id.longitude);
-        latitude=(EditText)view.findViewById(R.id.latitude);
+//        longitude=(EditText)view.findViewById(R.id.longitude);
+//        latitude=(EditText)view.findViewById(R.id.latitude);
         com_number=(EditText)view.findViewById(R.id.com_number);
         tax_number=(EditText)view.findViewById(R.id.tax_number);
 

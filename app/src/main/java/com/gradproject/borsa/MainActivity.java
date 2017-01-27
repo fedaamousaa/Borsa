@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements  MarketOverView.F
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_apps_black_24dp);
         }
         Drawer();
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -35,8 +36,7 @@ public class MainActivity extends AppCompatActivity implements  MarketOverView.F
                         startActivity(in);
                         break;
                     case R.id.companies:
-                        Intent intent = new Intent(MainActivity.this, Companies.class);
-                        startActivity(intent);
+                        getFragmentManager().beginTransaction().add(R.id.frame, new Companies()).commit();
                         break;
                     case R.id.brokers:
                         Intent intn = new Intent(MainActivity.this, BrokerDetails.class);
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements  MarketOverView.F
                 return false;
             }
         });
-        getFragmentManager().beginTransaction().add(R.id.frame, new MarketOverView()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.frame, new MarketOverView()).commit();
     }
     public void Drawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements  MarketOverView.F
         drawerToggle.setDrawerIndicatorEnabled(true);
         drawerLayout.addDrawerListener(drawerToggle);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
