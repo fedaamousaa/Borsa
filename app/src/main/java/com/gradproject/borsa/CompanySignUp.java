@@ -54,38 +54,40 @@ EditText name,phone, email, address, password, longitude, latitude, com_number, 
         return view;
     }
     public class ExcuteNetworkOperation extends AsyncTask<Void,Void,String> {
-
+      final   JSONObject param=new JSONObject();
         @Override
         protected void onPreExecute() {
+            try {
+
+                param.put("name",name.getText().toString());
+                param.put("phone",phone.getText().toString());
+                param.put("email",email.getText().toString());
+                param.put("address",address.getText().toString());
+                param.put("password",password.getText().toString());
+                param.put("longitude",longitude.getText().toString());
+                param.put("latitude",latitude.getText().toString());
+                param.put("com_number",com_number.getText().toString());
+                param.put("tax_number",tax_number.getText().toString());
+
+
+
+            } catch (JSONException  e) {
+                e.printStackTrace();
+            }
             super.onPreExecute();
         }
 
         @Override
         protected String doInBackground(Void... params) {
-            new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        JSONObject param=new JSONObject();
-                        param.put("name",name.getText().toString());
-                        param.put("phone",phone.getText().toString());
-                        param.put("email",email.getText().toString());
-                        param.put("address",address.getText().toString());
-                        param.put("longitude",longitude.getText().toString());
-                        param.put("latitude",latitude.getText().toString());
-                        param.put("com_number",com_number.getText().toString());
-                        param.put("tax_number",tax_number.getText().toString());
-                        Utils.signUpCompany(param);
+            JSONObject s = new JSONObject();
 
+            try {
+                s=  Utils.signUpCompany(param);
+            } catch (IOException |JSONException e) {
+                e.printStackTrace();
+            }
 
-                    } catch (JSONException |IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }).start();
-
-
-            return null;
+            return s.toString();
         }
 
         @Override

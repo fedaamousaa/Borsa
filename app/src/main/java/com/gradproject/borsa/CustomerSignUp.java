@@ -1,5 +1,6 @@
 package com.gradproject.borsa;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,21 +40,58 @@ public class CustomerSignUp extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                JSONObject params=new JSONObject();
-                try {
-                    params.put("first_name",fname.getText().toString());
-                    params.put("last_name",lname.getText().toString());
-                    params.put("email",e_mail.getText().toString());
-                    params.put("password",password.getText().toString());
-                    Utils.signUpCustomer(params);
-                } catch (JSONException | IOException e) {
-                    e.printStackTrace();
-                }
+                new ExcuteNetworkOperation().execute();
+                Toast.makeText(getContext(),"done",Toast.LENGTH_LONG).show();
             }
         });
 
-
         return view;
     }
+    public class ExcuteNetworkOperation extends AsyncTask<Void,Void,String> {
+        final JSONObject param = new JSONObject();
 
+        @Override
+        protected void onPreExecute() {
+            try {
+
+                param.put("first_name", fname.getText().toString());
+                param.put("last_name", lname.getText().toString());
+                param.put("email", e_mail.getText().toString());
+                param.put("password", password.getText().toString());
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            super.onPreExecute();
+        }
+
+
+
+        @Override
+        protected String doInBackground(Void... params) {
+            JSONObject s =new JSONObject();
+
+            try {
+                s=  Utils.signUpCustomer(param);
+            } catch (IOException |JSONException e) {
+                e.printStackTrace();
+            }
+
+            return s.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
 }
+
+
+
+
+
+
+
+

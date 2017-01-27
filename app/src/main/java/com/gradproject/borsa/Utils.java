@@ -21,7 +21,7 @@ public class Utils {
     public Utils(Context context){
         this.context=context;
     }
-    private static String Domain="borsa.herokuapp.com";
+    private static String Domain="http://borsa.herokuapp.com";
     private String getRequest(String url)throws IOException{
         String data;
         BufferedReader reader;
@@ -43,8 +43,8 @@ public class Utils {
         data=stringBuffer.toString();
         return data;
     }
-    public static String postRequest(String url, JSONObject params)throws IOException{
-        URL url1=new URL(Domain+url);
+    private static   String postRequest(String url, JSONObject params)throws IOException{
+        URL url1=new URL(url);
         HttpURLConnection connection=(HttpURLConnection)url1.openConnection();
         connection.setRequestProperty("Authorization","627562626c6520617069206b6579");
         connection.setRequestMethod("POST");
