@@ -1,4 +1,4 @@
-package com.gradproject.borsa;
+package com.gradproject.borsa.signup;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.gradproject.borsa.R;
+import com.gradproject.borsa.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

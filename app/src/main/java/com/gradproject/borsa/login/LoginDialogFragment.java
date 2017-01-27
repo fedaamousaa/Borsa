@@ -1,33 +1,47 @@
-package com.gradproject.borsa;
+package com.gradproject.borsa.login;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-public class SignUp extends AppCompatActivity {
+import com.gradproject.borsa.CustomViewPager;
+import com.gradproject.borsa.R;
+
+public class LoginDialogFragment extends DialogFragment {
+
+    public LoginDialogFragment() {
+        // Required empty public constructor
+    }
 
     ViewPager mViewPager;
     TabLayout mTabLayout;
     SamplePagerAdapter mPageAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(new SamplePagerAdapter(getSupportFragmentManager()));
-        mTabLayout = (TabLayout) findViewById(R.id.tabbar_stock_symbol);
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_login_dialog, container, false);
+        mViewPager = (CustomViewPager) v.findViewById(R.id.login_pager);
+        mPageAdapter = new SamplePagerAdapter(getChildFragmentManager());
+        mTabLayout = (TabLayout) v.findViewById(R.id.tabbar_login_symbol);
         // handle selection
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                getDialog().setTitle(tab.getText());
                 // read Company name from SQLite database & set actionbar Title
-                getSupportActionBar().setTitle(tab.getText().toString());
                 tab.select();
                 mViewPager.setCurrentItem(tab.getPosition(), true);
             }
@@ -43,22 +57,19 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-        mPageAdapter = new SamplePagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mPageAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         TabLayout.Tab initialTab = mTabLayout.getTabAt(0);
         if (initialTab != null) {
-            getSupportActionBar().setTitle(initialTab.getText().toString());
             initialTab.select();
         }
-
+        // Inflate the layout for this fragment
+        return v;
     }
 
     public class SamplePagerAdapter extends FragmentPagerAdapter {
 
-        String[] titles = {CustomerSignUp.class.getSimpleName(),
-                CompanySignUp.class.getSimpleName(),
-                BrokerSignUP.class.getSimpleName()};
+        String[] titles = {"User", "Company", "Broker"};
 
         public SamplePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -68,11 +79,11 @@ public class SignUp extends AppCompatActivity {
         public Fragment getItem(int position) {
             /** Show a Fragment based on the position of the current screen */
             if (position == 0) {
-                return new CustomerSignUp();
+                return new CustomerLoginFragment();
             } else if (position == 1) {
-                return new CompanySignUp();
+                return new CompanyLoginFragment();
             }else {
-                return new BrokerSignUP();
+                return new BrokerLoginFragment();
             }
         }
 
@@ -86,5 +97,4 @@ public class SignUp extends AppCompatActivity {
             return 3;
         }
     }
-
 }
