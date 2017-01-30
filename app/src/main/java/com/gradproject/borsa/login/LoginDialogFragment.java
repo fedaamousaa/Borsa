@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.gradproject.borsa.CustomViewPager;
 import com.gradproject.borsa.R;
+import com.gradproject.borsa.signup.CustomerSignUp;
 
 public class LoginDialogFragment extends DialogFragment {
 
@@ -69,7 +70,7 @@ public class LoginDialogFragment extends DialogFragment {
 
     public class SamplePagerAdapter extends FragmentPagerAdapter {
 
-        String[] titles = {"User", "Company", "Broker"};
+        String[] titles = {"User","Sign Up"};
 
         public SamplePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -78,14 +79,13 @@ public class LoginDialogFragment extends DialogFragment {
         @Override
         public Fragment getItem(int position) {
             /** Show a Fragment based on the position of the current screen */
-            if (position == 0) {
+           if (position == 0) {
                 return new CustomerLoginFragment();
-            } else if (position == 1) {
-                return new CompanyLoginFragment();
-            }else {
-                return new BrokerLoginFragment();
             }
-        }
+         else {
+                return new CustomerSignUp();
+           }
+       }
 
         @Override
         public CharSequence getPageTitle(int position) {
@@ -94,7 +94,8 @@ public class LoginDialogFragment extends DialogFragment {
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
     }
+
 }

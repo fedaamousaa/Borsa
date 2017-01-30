@@ -58,9 +58,8 @@ public class SignUp extends AppCompatActivity {
 
     public class SamplePagerAdapter extends FragmentPagerAdapter {
 
-        String[] titles = {CustomerSignUp.class.getSimpleName(),
-                CompanySignUp.class.getSimpleName(),
-                BrokerSignUP.class.getSimpleName()};
+        String[] titles = {CustomerSignUp.class.getSimpleName()};
+
 
         public SamplePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -69,13 +68,10 @@ public class SignUp extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             /** Show a Fragment based on the position of the current screen */
-            if (position == 0) {
+           // if (position == 0) {
                 return new CustomerSignUp();
-            } else if (position == 1) {
-                return new CompanySignUp();
-            }else {
-                return new BrokerSignUP();
-            }
+         //   }
+           // return ne
         }
 
         @Override
@@ -85,7 +81,7 @@ public class SignUp extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 1;
         }
     }
 

@@ -38,13 +38,13 @@
         android:layout_height="wrap_content"
         android:text="@string/login"
         />
-    <TextView
+   <!-- <TextView
         android:id="@+id/newuser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/create_new_account"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        />
+        />-->
 
 </LinearLayout>

@@ -47,11 +47,6 @@ public class MainActivity extends AppCompatActivity implements  MarketOverView.F
                         getFragmentManager().beginTransaction().add(R.id.frame, new Companies()).commit();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
-                    case R.id.brokers:
-                        Intent intn = new Intent(MainActivity.this, BrokerDetails.class);
-                        startActivity(intn);
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
                     case R.id.settings:
                         Intent n = new Intent(MainActivity.this, Settings.class);
                         startActivity(n);

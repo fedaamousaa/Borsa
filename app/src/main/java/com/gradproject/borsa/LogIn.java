@@ -1,13 +1,9 @@
 package com.gradproject.borsa;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.TextView;
-
-import com.gradproject.borsa.signup.SignUp;
 
 public class LogIn extends AppCompatActivity {
     TextView signup;
@@ -20,13 +16,13 @@ public class LogIn extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        signup = (TextView) findViewById(R.id.newuser);
+      /*  signup = (TextView) findViewById(R.id.newuser);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(LogIn.this, SignUp.class);
                 startActivity(in);
             }
-        });
+        });*/
     }
 }

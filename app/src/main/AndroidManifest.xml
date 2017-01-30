@@ -30,12 +30,6 @@
         <activity android:name=".Orange"  />
         <activity android:name=".Search"  />
        <!-- <activity android:name=".Companies" />-->
-        <activity android:name=".BrokersListActivity"/>
-        <activity android:name=".BrokerDetails">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
     </application>
 
 </manifest>
