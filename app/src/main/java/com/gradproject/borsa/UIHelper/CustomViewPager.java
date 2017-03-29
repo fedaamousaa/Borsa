@@ -1,4 +1,4 @@
-package com.gradproject.borsa;
+package com.gradproject.borsa.UIHelper;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

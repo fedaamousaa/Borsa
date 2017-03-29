@@ -1,41 +1,45 @@
-<android.support.v7.widget.CardView
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/activity_horizontal_margin"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin"
-    android:gravity="center">
-    <TextView
-        android:id="@+id/company_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1-PORTO GROUP"
-        android:textColor="#6b045a"
-        android:layout_weight="1"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="last price     9.326.78"
-        android:layout_weight="1"
-        />
+    android:layout_margin="@dimen/activity_horizontal_margin">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="day change     -33.57"
-        android:layout_weight="1"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="day percent     -0.36%"
-        android:layout_weight="1"
-        />
-</LinearLayout>
+        <TextView
+            android:id="@+id/company_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1-PORTO GROUP"
+            android:textColor="#6b045a" />
+
+        <TextView
+            android:id="@+id/last_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="last price     9.326.78" />
+
+        <TextView
+            android:id="@+id/day_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="day change     -33.57" />
+
+        <TextView
+            android:id="@+id/day_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:text="day percent     -0.36%"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
 </android.support.v7.widget.CardView>

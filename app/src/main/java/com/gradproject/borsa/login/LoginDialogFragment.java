@@ -1,5 +1,6 @@
 package com.gradproject.borsa.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
@@ -11,11 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gradproject.borsa.CustomViewPager;
+import com.gradproject.borsa.Activities.ProfileActivity;
+import com.gradproject.borsa.UIHelper.CustomViewPager;
 import com.gradproject.borsa.R;
 import com.gradproject.borsa.signup.CustomerSignUp;
 
-public class LoginDialogFragment extends DialogFragment {
+public class LoginDialogFragment extends DialogFragment implements CustomerLoginFragment.OnUserLogedIn {
 
     public LoginDialogFragment() {
         // Required empty public constructor
@@ -68,6 +70,16 @@ public class LoginDialogFragment extends DialogFragment {
         return v;
     }
 
+    @Override
+    public void onAction(boolean bool) {
+        if (bool){
+            Intent in = new Intent(getActivity(), ProfileActivity.class);
+            getActivity().startActivity(in);
+            getDialog().dismiss();
+
+        }
+    }
+
     public class SamplePagerAdapter extends FragmentPagerAdapter {
 
         String[] titles = {"User","Sign Up"};
@@ -97,5 +109,4 @@ public class LoginDialogFragment extends DialogFragment {
             return 2;
         }
     }
-
 }

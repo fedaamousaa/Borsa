@@ -7,18 +7,8 @@
         android:orderInCategory="100"
         app:showAsAction="never"
         android:icon="@drawable/login"/>
-    <item
-        android:id="@+id/companies"
-        android:title="@string/company"
-        android:orderInCategory="100"
-        app:showAsAction="never"
-        android:icon="@drawable/companies"/>
-    <item
-        android:id="@+id/brokers"
-        android:title="@string/brokers"
-        android:orderInCategory="100"
-        android:icon="@drawable/broker"
-        app:showAsAction="never" />
+
+
 
     <item
         android:id="@+id/news"
@@ -32,17 +22,14 @@
         android:title="settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
+
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/search"
-        android:title="search"
+        android:id="@+id/sign_out"
+        android:title="@string/log_out"
         android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/information"
-        android:title="information"
-        android:orderInCategory="100"
-        android:icon="@drawable/about"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/login"
+        android:visible="false"/>
+
 
 </menu>

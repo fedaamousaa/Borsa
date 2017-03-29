@@ -4,7 +4,7 @@ package com.gradproject.borsa.DataModel;
  * Created by Shery on 17/12/2016.
  */
 
-public class Broker {
+public class Broker extends Object{
     String name;
     String phone;
     int id;

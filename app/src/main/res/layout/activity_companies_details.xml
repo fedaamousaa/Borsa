@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_companies_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.gradproject.borsa.Activities.CompaniesDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical">
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="6"
+            android:id="@+id/graph"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/min"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="30 min"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"/>
+            <Button
+                android:id="@+id/hours"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="1 hour"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"/>
+            <Button
+                android:id="@+id/day"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="1 day"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"/>
+            <Button
+                android:id="@+id/week"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="1 Week"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"/>
+            <!--<Button-->
+                <!--android:id="@+id/month"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="1 month"-->
+                <!--android:background="@color/colorAccent"-->
+                <!--android:textColor="@android:color/white"/>-->
+        </LinearLayout>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/lastprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.326.78"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-0.36%"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                />
+
+            <Button
+                android:id="@+id/btnbuy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Buy Stock"
+                android:textAllCaps="false"
+                android:background="@android:color/holo_green_light"
+                android:textColor="@android:color/white"
+                />
+
+            <fragment
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+
+                />
+
+        </LinearLayout>
+
+
+</LinearLayout>

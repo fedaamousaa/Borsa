@@ -1,4 +1,4 @@
-package com.gradproject.borsa;
+package com.gradproject.borsa.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class guides extends AppCompatActivity {
+import com.gradproject.borsa.R;
+
+public class GuidesActivity extends AppCompatActivity {
 TextView skip;
     Button buttons;
     @Override
@@ -21,16 +23,14 @@ TextView skip;
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(guides.this, MainActivity.class);
+                Intent in = new Intent(GuidesActivity.this, MainActivity.class);
                 startActivity(in);
             }
         });
-
-
         buttons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(guides.this, MainActivity.class);
+                Intent in = new Intent(GuidesActivity.this, MainActivity.class);
                 startActivity(in);
             }
         });

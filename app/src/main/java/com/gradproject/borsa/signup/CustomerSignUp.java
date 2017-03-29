@@ -1,7 +1,10 @@
 package com.gradproject.borsa.signup;
 
+
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gradproject.borsa.R;
-import com.gradproject.borsa.Utils;
+import com.gradproject.borsa.UIHelper.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +22,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class CustomerSignUp extends Fragment {
-    EditText fname,lname,e_mail,password;
+    EditText fname,lname,e_mail,password,confirm;
     Button submit;
     public CustomerSignUp() {
         // Required empty public constructor
@@ -39,15 +42,21 @@ public class CustomerSignUp extends Fragment {
         lname=(EditText)view.findViewById(R.id.last);
         e_mail=(EditText)view.findViewById(R.id.mail);
         password=(EditText)view.findViewById(R.id.password);
+        confirm=(EditText)view.findViewById(R.id.password_confirm);
         submit=(Button)view.findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ExcuteNetworkOperation().execute();
-                Toast.makeText(getContext(),"done",Toast.LENGTH_LONG).show();
+                if (password.getText().toString()== confirm.getText().toString()){
+                    new ExcuteNetworkOperation().execute();
+                    Toast.makeText(getContext(),"done",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getContext(), "password error", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
-
         return view;
     }
     public class ExcuteNetworkOperation extends AsyncTask<Void,Void,String> {
@@ -61,6 +70,7 @@ public class CustomerSignUp extends Fragment {
                 param.put("last_name", lname.getText().toString());
                 param.put("email", e_mail.getText().toString());
                 param.put("password", password.getText().toString());
+
 
 
             } catch (JSONException e) {
@@ -86,7 +96,27 @@ public class CustomerSignUp extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
+            try {
+                JSONObject response=new JSONObject(s);
+                int id=response.getInt("response");
+                switch (id){
+                    case -2:
+                        Toast.makeText(getContext(), "email already exist", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(getContext());
+                        SharedPreferences.Editor pref_edit=pref.edit();
+                        pref_edit.putInt("Id",id);
+                        pref_edit.apply();
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             super.onPostExecute(s);
+
         }
     }
 }

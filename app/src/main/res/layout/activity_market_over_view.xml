@@ -4,11 +4,12 @@
     android:id="@+id/marketframe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
 
 
-    tools:context="com.gradproject.borsa.MarketOverView">
+    tools:context="com.gradproject.borsa.Fargments.MarketOverViewFragment">
     <GridView
-        android:id="@+id/grid"
+        android:id="@+id/company_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="auto_fit"

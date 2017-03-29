@@ -4,7 +4,7 @@
     android:id="@+id/activity_guides"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gradproject.borsa.guides"
+    tools:context="com.gradproject.borsa.Activities.GuidesActivity"
     android:background="#353434">
 
     <ImageView

@@ -5,7 +5,6 @@
     android:id="@+id/activity_sign_up"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.gradproject.borsa.signup.SignUp"
     android:orientation="vertical">
 
         <android.support.design.widget.TabLayout
@@ -16,12 +15,12 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary" />
 
-        <com.gradproject.borsa.CustomViewPager
+        <com.gradproject.borsa.UIHelper.CustomViewPager
             android:id="@+id/login_pager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        </com.gradproject.borsa.CustomViewPager>
+        </com.gradproject.borsa.UIHelper.CustomViewPager>
 
 
 </LinearLayout>
