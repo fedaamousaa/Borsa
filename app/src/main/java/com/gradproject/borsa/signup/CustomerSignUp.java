@@ -47,7 +47,7 @@ public class CustomerSignUp extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (password.getText().toString()== confirm.getText().toString()){
+                if (password.getText().toString().equals(confirm.getText().toString()) ){
                     new ExcuteNetworkOperation().execute();
                     Toast.makeText(getContext(),"done",Toast.LENGTH_LONG).show();
                 }

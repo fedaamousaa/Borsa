@@ -1,13 +1,29 @@
 package com.gradproject.borsa.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -20,10 +36,6 @@ import com.gradproject.borsa.DataModel.StockValue;
 import com.gradproject.borsa.Fargments.BuyDialogFragment;
 import com.gradproject.borsa.R;
 import com.gradproject.borsa.UIHelper.Utils;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,19 +52,28 @@ import java.util.Locale;
 import io.realm.Realm;
 
 public class CompaniesDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
-    TextView last, percent;
+    TextView last, percent ,name,phone,email,name_ar ,curr;
     int item_id;
     Stock stock = new Stock();
-    GraphView graph;
-    Button min, hour, day, month, week;
-
+    Button min, hour, day,week;
     GoogleMap mMap;
     Button buyButton;
     private Realm realm;
 
+
+    ArrayList<String> Date = new ArrayList<>();
+    ArrayList<Entry> Value=new ArrayList<>();
+
+    LineChart chart;
+    DrawerLayout drawerLayout;
+
+    IAxisValueFormatter formatter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_companies_details);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -67,9 +88,16 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
         min = (Button) findViewById(R.id.min);
         hour = (Button) findViewById(R.id.hours);
         day = (Button) findViewById(R.id.day);
-       // month = (Button) findViewById(R.id.month);
+
         week = (Button) findViewById(R.id.week);
         buyButton = (Button) findViewById(R.id.btnbuy);
+
+        name=(TextView)findViewById(R.id.comany_name);
+        name_ar=(TextView)findViewById(R.id.ar_name);
+        email=(TextView)findViewById(R.id.email_company);
+        phone=(TextView)findViewById(R.id.phone_company);
+
+        curr=(TextView)findViewById(R.id.cur_value);
 
         Intent in = getIntent();
         item_id = in.getIntExtra("item", 0);
@@ -77,13 +105,33 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
         stock = realm.where(Stock.class).equalTo("id", item_id).findFirst();
         initUI();
 
-        graph = (GraphView) findViewById(R.id.graph);
-        updateGraph(new ArrayList<>(realm.where(StockValue.class).equalTo("stock_id", item_id).findAll()));
+       chart = (LineChart) findViewById(R.id.chart);
+       graph(new ArrayList<>(realm.where(StockValue.class).equalTo("stock_id", item_id).findAll()));
+        chart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
+
 
         new ExcuteNetworkOperation().execute();
         new ExcuteNetworkGraph().execute();
+
+
+
+
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else{
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onMapReady(final GoogleMap map) {
         mMap = map;
@@ -115,6 +163,7 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
         });
 
         last.setText(String.valueOf(Utils.formatCurrency(roundTwoDecimals(stock.getCurrent_value()))));
+        curr.setText(String.valueOf(Utils.formatCurrency(roundTwoDecimals(stock.getCurrent_value()))));
         if (stock.getCurrent_value() > stock.getLast_value()) {
             double change = (stock.getCurrent_value() / stock.getLast_value()) * 100;
             percent.setText("+" + roundTwoDecimals(change) + "%");
@@ -124,6 +173,11 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
             percent.setText("-" + roundTwoDecimals(change) + "%");
             percent.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
         }
+        name.setText(""+stock.getCompany().getName()+"("+ stock.getCompany().getSymbol()+")");
+        name_ar.setText(stock.getCompany().getName_ar());
+        phone.setText(stock.getCompany().getPhone());
+        //symbol.setText();
+        email.setText(stock.getCompany().getEmail());
 
 
     }
@@ -198,7 +252,7 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
 
                     stockValues.add(stockValue);
                 }
-                updateGraph(stockValues);
+                graph(stockValues);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -214,18 +268,18 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
             super.onPostExecute(jsonArray);
         }
     }
+    private void graph(ArrayList<StockValue> sArray) {
 
-    private void updateGraph(ArrayList<StockValue> sArray) {
-        graph.removeAllSeries();
-        final DataPoint[] dataPoints = new DataPoint[sArray.size()];
-        final Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
+
         Double maxValue = 0.0;
         Double minValue = 0.0;
 
         for (int i = 0; i < sArray.size(); i++) {
             Double value = sArray.get(i).getValue();
             Date date = sArray.get(i).getDate_add();
+            final Calendar c = Calendar.getInstance();
+            c.setTime(new Date());
+
             if (i == 0) {
                 minValue = value;
             } else {
@@ -236,249 +290,84 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
             if (value > maxValue) {
                 maxValue = value;
             }
+            Date.add(date.toString());
+            Value.add(new Entry(Float.parseFloat(String.valueOf(i)), Float.parseFloat(String.valueOf(value))));
 
-            dataPoints[i] = new DataPoint(date, value);
+            formatter = new IAxisValueFormatter() {
+
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    return Date.get(Integer.parseInt(String.valueOf(value)) );
+                }
+
+            };
+
+            XAxis xAxis = chart.getXAxis();
+//            xAxis.setTextSize(11f);
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//            xAxis.getAxisLineColor();
+            xAxis.setValueFormatter(formatter);
+            c.add(Calendar.DAY_OF_YEAR, -3);
+//            xAxis.setAxisMaxValue(c.getTime().getTime());
+//            xAxis.setAxisMinValue(new Date().getTime());
+            xAxis.setTextColor(ColorTemplate.getHoloBlue());
+//            xAxis.setDrawGridLines(false);
+//            xAxis.setDrawAxisLine(true);
+            xAxis.setGranularity(1f);
+
+
+            YAxis leftAxis = chart.getAxisLeft();
+            leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+            leftAxis.setAxisMaxValue(Float.valueOf(maxValue.toString()));
+            Double min=minValue - (maxValue - minValue);
+            leftAxis.setAxisMinValue(Float.valueOf(min.toString()));
+            leftAxis.setDrawGridLines(false);
+            leftAxis.setGranularityEnabled(true);
+
+            setData();
+
+            chart.invalidate();
+            chart.notifyDataSetChanged();
         }
-
-        final LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
-//        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getBaseContext(), new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)));
-
-        series.setDrawBackground(true);
-
-
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(minValue - (maxValue - minValue));
-        graph.getViewport().setMaxY(maxValue);
-
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getBaseContext()));
-
-        graph.getViewport().setXAxisBoundsManual(true);
-        c.add(Calendar.DAY_OF_YEAR, -3);
-        graph.getViewport().setMinX(c.getTime().getTime());
-        graph.getViewport().setMaxX(new Date().getTime());
-
-        graph.getGridLabelRenderer().setLabelsSpace(5);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(4);
-
-        graph.getGridLabelRenderer().setTextSize(15);
-
-        min.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                hour.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                hour.setTextColor(getResources().getColor(android.R.color.white));
-                week.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                week.setTextColor(getResources().getColor(android.R.color.white));
-                day.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                day.setTextColor(getResources().getColor(android.R.color.white));
-
-                min.setBackgroundColor(getResources().getColor(android.R.color.white));
-                min.setTextColor(getResources().getColor(R.color.colorAccent));
-
-                c.setTime(new Date());
-                c.add(Calendar.MINUTE, -30);
-                graph.getViewport().setMinX(c.getTime().getTime());
-                graph.getViewport().setMaxX(new Date().getTime());
-                ArrayList<StockValue> sArray = new ArrayList<>(realm.where(StockValue.class).equalTo("stock_id", item_id).between("date_add", c.getTime(), new Date()).findAll());
-                Double maxValue = 0.0;
-                Double minValue = 0.0;
-
-                for (int i = 0; i < sArray.size(); i++) {
-                    Double value = sArray.get(i).getValue();
-                    Date date = sArray.get(i).getDate_add();
-                    if (i == 0) {
-                        minValue = value;
-                    } else {
-                        if (value < minValue) {
-                            minValue = value;
-                        }
-                    }
-                    if (value > maxValue) {
-                        maxValue = value;
-                    }
-
-                    dataPoints[i] = new DataPoint(date, value);
-                }
-                graph.getViewport().setMinY(minValue - (maxValue - minValue));
-                graph.getViewport().setMaxY(maxValue);
-                graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getBaseContext(), new SimpleDateFormat(":mm a, z", Locale.ENGLISH)));
-                graph.getViewport().scrollToEnd();
-
-            }
-        });
-        hour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                min.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                min.setTextColor(getResources().getColor(android.R.color.white));
-                week.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                week.setTextColor(getResources().getColor(android.R.color.white));
-                day.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                day.setTextColor(getResources().getColor(android.R.color.white));
-
-                hour.setBackgroundColor(getResources().getColor(android.R.color.white));
-                hour.setTextColor(getResources().getColor(R.color.colorAccent));
-
-                c.setTime(new Date());
-                c.add(Calendar.HOUR_OF_DAY, -1);
-                graph.getViewport().setMinX(c.getTime().getTime());
-                graph.getViewport().setMaxX(new Date().getTime());
-                ArrayList<StockValue> sArray = new ArrayList<>(realm.where(StockValue.class).equalTo("stock_id", item_id).between("date_add", c.getTime(), new Date()).findAll());
-                Double maxValue = 0.0;
-                Double minValue = 0.0;
-
-                for (int i = 0; i < sArray.size(); i++) {
-                    Double value = sArray.get(i).getValue();
-                    Date date = sArray.get(i).getDate_add();
-                    if (i == 0) {
-                        minValue = value;
-                    } else {
-                        if (value < minValue) {
-                            minValue = value;
-                        }
-                    }
-                    if (value > maxValue) {
-                        maxValue = value;
-                    }
-
-                    dataPoints[i] = new DataPoint(date, value);
-                }
-                graph.getViewport().setMinY(minValue - (maxValue - minValue));
-                graph.getViewport().setMaxY(maxValue);
-                graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getBaseContext(), new SimpleDateFormat("h:mm a", Locale.ENGLISH)));
-                graph.getViewport().scrollToEnd();
-            }
-        });
-        day.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hour.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                hour.setTextColor(getResources().getColor(android.R.color.white));
-                week.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                week.setTextColor(getResources().getColor(android.R.color.white));
-                min.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                min.setTextColor(getResources().getColor(android.R.color.white));
-
-                day.setBackgroundColor(getResources().getColor(android.R.color.white));
-                day.setTextColor(getResources().getColor(R.color.colorAccent));
-
-                c.setTime(new Date());
-                c.add(Calendar.DAY_OF_WEEK, -1);
-                graph.getViewport().setMinX(c.getTime().getTime());
-                graph.getViewport().setMaxX(new Date().getTime());
-                ArrayList<StockValue> sArray = new ArrayList<>(realm.where(StockValue.class).equalTo("stock_id", item_id).between("date_add", c.getTime(), new Date()).findAll());
-                Double maxValue = 0.0;
-                Double minValue = 0.0;
-
-                for (int i = 0; i < sArray.size(); i++) {
-                    Double value = sArray.get(i).getValue();
-                    Date date = sArray.get(i).getDate_add();
-                    if (i == 0) {
-                        minValue = value;
-                    } else {
-                        if (value < minValue) {
-                            minValue = value;
-                        }
-                    }
-                    if (value > maxValue) {
-                        maxValue = value;
-                    }
-
-                    dataPoints[i] = new DataPoint(date, value);
-                }
-                graph.getViewport().setMinY(minValue - (maxValue - minValue));
-                graph.getViewport().setMaxY(maxValue);
-                graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getBaseContext(), new SimpleDateFormat("EEE", Locale.ENGLISH)));
-                graph.getViewport().scrollToEnd();
-            }
-        });
-        week.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                hour.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                hour.setTextColor(getResources().getColor(android.R.color.white));
-                min.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                min.setTextColor(getResources().getColor(android.R.color.white));
-                day.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                day.setTextColor(getResources().getColor(android.R.color.white));
-
-                week.setBackgroundColor(getResources().getColor(android.R.color.white));
-                week.setTextColor(getResources().getColor(R.color.colorAccent));
-
-
-                c.setTime(new Date());
-                c.add(Calendar.WEEK_OF_MONTH, -1);
-                graph.getViewport().setMinX(c.getTime().getTime());
-                graph.getViewport().setMaxX(new Date().getTime());
-                ArrayList<StockValue> sArray = new ArrayList<>(realm.where(StockValue.class).equalTo("stock_id", item_id).between("date_add", c.getTime(), new Date()).findAll());
-                Double maxValue = 0.0;
-                Double minValue = 0.0;
-
-                for (int i = 0; i < sArray.size(); i++) {
-                    Double value = sArray.get(i).getValue();
-                    Date date = sArray.get(i).getDate_add();
-                    if (i == 0) {
-                        minValue = value;
-                    } else {
-                        if (value < minValue) {
-                            minValue = value;
-                        }
-                    }
-                    if (value > maxValue) {
-                        maxValue = value;
-                    }
-
-                    dataPoints[i] = new DataPoint(date, value);
-                }
-                graph.getViewport().setMinY(minValue - (maxValue - minValue));
-                graph.getViewport().setMaxY(maxValue);
-                graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getBaseContext(), new SimpleDateFormat("EEE, MMM", Locale.ENGLISH)));
-                graph.getViewport().scrollToEnd();
-            }
-        });
-//        month.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                c.setTime(new Date());
-//                c.add(Calendar.MONTH, -1);
-//                graph.getViewport().setMinX(c.getTime().getTime());
-//                graph.getViewport().setMaxX(new Date().getTime());
-//                ArrayList<StockValue> sArray = new ArrayList<>(realm.where(StockValue.class).equalTo("stock_id", item_id).between("date_add", c.getTime(), new Date()).findAll());
-//                Double maxValue = 0.0;
-//                Double minValue = 0.0;
-//
-//                for (int i = 0; i < sArray.size(); i++) {
-//                    Double value = sArray.get(i).getValue();
-//                    Date date = sArray.get(i).getDate_add();
-//                    if (i == 0) {
-//                        minValue = value;
-//                    } else {
-//                        if (value < minValue) {
-//                            minValue = value;
-//                        }
-//                    }
-//                    if (value > maxValue) {
-//                        maxValue = value;
-//                    }
-//
-//                    dataPoints[i] = new DataPoint(date, value);
-//                }
-//                graph.getViewport().setMinY(minValue - (maxValue - minValue));
-//                graph.getViewport().setMaxY(maxValue);
-//                graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getBaseContext(), new SimpleDateFormat("MMM", Locale.ENGLISH)));
-//                graph.getViewport().scrollToEnd();
-//            }
-//        });
-        graph.addSeries(series);
-
-        graph.getViewport().setScalable(true);
-        graph.getViewport().setScalableY(true);
-        graph.getViewport().setScrollable(true);
-        graph.getViewport().setScrollableY(true);
     }
+
+
+    private void setData() {
+
+        LineDataSet set1;
+
+        // create a dataset and give it a type
+        set1 = new LineDataSet(Value, "Value");
+        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set1.setColor(ColorTemplate.getHoloBlue());
+        set1.setCircleColor(Color.WHITE);
+        set1.setLineWidth(2f);
+        set1.setCircleRadius(3f);
+        set1.setFillAlpha(65);
+        set1.setFillColor(ColorTemplate.getHoloBlue());
+        set1.setHighLightColor(Color.rgb(244, 117, 117));
+        set1.setDrawCircleHole(false);
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
+
+
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(set1); // add the datasets
+
+        // create a data object with the datasets
+
+        LineData data = new LineData(dataSets);
+        data.setValueTextColor(Color.WHITE);
+        data.setValueTextSize(9f);
+
+        // set data
+        chart.setData(data);
+        chart.getAxisRight().setEnabled(false);
+//        chart.moveViewToX(data.getEntryCount());
+
+    }
+
 
 
 }

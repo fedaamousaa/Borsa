@@ -1,7 +1,5 @@
 package com.gradproject.borsa.Fargments;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -10,7 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,58 +35,33 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 
+public class BondMarketFragment extends Fragment {
 
-public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
-    private FragmentInteractionListener Listener;
-    GridView company_list,EGX_list;
+    GridView Bond;
     JSONArray array = new JSONArray();
     TextView companyNameText, last_price, day_change, day_percent,type;
-    ArrayList<Stock> stockArray,egxArray;
-    stockAdapter c,adapter;
+    ArrayList<Stock> bondArray;
+    bondAdapter adapter;
     Realm realm;
-    SwipeRefreshLayout swipeRefreshLayout;
-
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_market_over_view, container, false);
-        company_list = (GridView) view.findViewById(R.id.company_list);
-//        EGX_list=(GridView)view.findViewById(R.id.EGX_list);
-//        egxArray=new ArrayList<>(realm.where(Stock.class).equalTo("type",2).findAll());
-//        adapter=new stockAdapter(getActivity(), R.layout.companies_list_item, egxArray);
-//        EGX_list.setAdapter(adapter);
+        View view=inflater.inflate(R.layout.activity_bond_market_fragment,container,false);
+        Bond=(GridView)view.findViewById(R.id.bond);
+//
+//        bondArray=new ArrayList<>(realm.where(Stock.class).equalTo("type",1).findAll());
+//        adapter=new bondAdapter(getActivity(), R.layout.companies_list_item, bondArray);
+//        Bond.setAdapter(adapter);
 
-        stockArray = new ArrayList<>(realm.where(Stock.class).equalTo("type",0).findAll());
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        c = new stockAdapter(getActivity(), R.layout.companies_list_item, stockArray);
-        company_list.setAdapter(c);
-        new ExcuteNetworkOperation().execute();
-
+//        new NetworkOperation().execute();
         return view;
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Initialize Realm
-        Realm.init(getActivity());
-        realm = Realm.getDefaultInstance();
-    }
-
-    @Override
-    public void onRefresh() {
-        new ExcuteNetworkOperation().execute();
-    }
-
-
-    public class stockAdapter extends ArrayAdapter {
+    public class bondAdapter extends ArrayAdapter {
 
         ArrayList<Stock> mCompanies;
 
-        stockAdapter(Context context, int resource, ArrayList<Stock> companies) {
+        bondAdapter(Context context, int resource, ArrayList<Stock> companies) {
             super(context, resource, companies);
             mCompanies = companies;
         }
@@ -132,9 +105,9 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
                     convertView.setBackground(getResources().getDrawable(R.drawable.gradient_red_color));
                 }
 
-                if (mCompanies.get(position).getType()==0)
+                if (mCompanies.get(position).getType()==1)
                 {
-                    type.setText("stock");
+                    type.setText("bond");
                 }
 
 
@@ -157,12 +130,15 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
 
 
     }
-
-    public class ExcuteNetworkOperation extends AsyncTask<Void, Void, String> {
+    double roundTwoDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
+    }
+    public class NetworkOperation extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
-            swipeRefreshLayout.setRefreshing(true);
+
             super.onPreExecute();
         }
 
@@ -187,8 +163,8 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
             ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
-                stockArray.clear();
-                c.notifyDataSetChanged();
+               bondArray.clear();
+                adapter.notifyDataSetChanged();
             }else {
                 Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             }
@@ -199,23 +175,10 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
                     Gson gson = new Gson();
 
                     JSONObject object = array.getJSONObject(i);
-//                    int id = object.getInt("id");
-//                    int type = object.getInt("type");
-//                    double current_value = object.getDouble("current_value");
-//                    double last_value = object.getDouble("last_value");
 
                     JSONObject companyObject = object.getJSONObject("company");
-//                    int com_id = companyObject.getInt("id");
-//                    String name = companyObject.getString("name");
-//                    String phone = companyObject.getString("phone");
-//                    String address = companyObject.getString("address");
-//                    String symbol = companyObject.getString("symbol");
 
                     Company company = gson.fromJson(companyObject.toString(), Company.class);
-//                    company.setId(com_id);
-//                    company.setName(name);
-//                    company.setPhone(phone);
-//                    company.setSymbol(symbol);
 
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(company);
@@ -223,19 +186,14 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
 
 
                     Stock stock = gson.fromJson(object.toString(), Stock.class);
-//                    stock.setId(id);
-//                    stock.setType(type);
-//                    stock.setCurrent_value(current_value);
-//                    stock.setLast_value(last_value);
-//                    stock.setCompany(company);
 
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(stock);
                     realm.commitTransaction();
-                    stockArray.add(stock);
+                    bondArray.add(stock);
                 }
-                Log.e("Stock Array", stockArray.toString());
-                swipeRefreshLayout.setRefreshing(false);
+                Log.e("Stock Array", bondArray.toString());
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -245,54 +203,4 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
 
         }
     }
-
-    double roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
-        return Double.valueOf(twoDForm.format(d));
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(String z) {
-        if (Listener != null) {
-            Listener.FragmentInteraction(z);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof FragmentInteractionListener) {
-            Listener = (FragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement FragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        if (context instanceof FragmentInteractionListener) {
-            Listener = (FragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement FragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Listener = null;
-    }
-
-    public interface FragmentInteractionListener {
-        // TODO: Update argument type and name
-        void FragmentInteraction(String z);
-    }
 }
-
-/*
-
- */
-

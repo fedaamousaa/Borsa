@@ -18,7 +18,7 @@ TextView skip;
         setContentView(R.layout.activity_guides);
 
         skip=(TextView)findViewById(R.id.skip);
-        buttons=(Button)findViewById(R.id.buttons);
+//        buttons=(Button)findViewById(R.id.buttons);
 
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,12 +27,12 @@ TextView skip;
                 startActivity(in);
             }
         });
-        buttons.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent in = new Intent(GuidesActivity.this, MainActivity.class);
-                startActivity(in);
-            }
-        });
+//        buttons.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent in = new Intent(GuidesActivity.this, MainActivity.class);
+//                startActivity(in);
+//            }
+//        });
     }
 }

@@ -7,8 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,7 +42,7 @@ import io.realm.Realm;
 public class ProfileActivity extends AppCompatActivity {
     int user_id;
     TextView name, mail, phone, Stock_name, value, type ,curr_value;
-    ActionBar actionBar;
+    Toolbar actionBar;
     ListView cusromer_stocks;
     ArrayList<UserStocks> stockArray;
     Button sell;
@@ -55,9 +55,11 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        actionBar = getSupportActionBar();
+        actionBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(actionBar);
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_apps_black_24dp);
         }
         name = (TextView) findViewById(R.id.name);
         mail = (TextView) findViewById(R.id.email);

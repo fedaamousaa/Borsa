@@ -94,7 +94,7 @@ public class BuyDialogFragment extends DialogFragment {
         total = (TextView) v.findViewById(R.id.total);
         price.setText(String.valueOf(curr_value));
         total.setText(String.valueOf(0));
-        if (null == curr_no || curr_no.equals("null") || curr_no.isEmpty()) {
+        if (null == curr_no || curr_no.equals("null") || curr_no.isEmpty()|| curr_no.equals("0")) {
             seekBar.setMax(Integer.valueOf(init_no));
         } else {
             seekBar.setMax(Integer.valueOf(curr_no));

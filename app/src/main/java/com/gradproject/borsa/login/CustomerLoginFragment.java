@@ -1,7 +1,6 @@
 package com.gradproject.borsa.login;
 
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.gradproject.borsa.Activities.ProfileActivity;
 import com.gradproject.borsa.R;
 import com.gradproject.borsa.UIHelper.Utils;
 
@@ -66,8 +64,8 @@ public class CustomerLoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 new ExcuteNetworkOperation().execute();
-                Intent intent=new Intent(getContext(), ProfileActivity.class);
-                getContext().startActivity(intent);
+//                Intent intent=new Intent(getActivity(), ProfileActivity.class);
+//                getActivity().startActivity(intent);
             }
         });
         return view;

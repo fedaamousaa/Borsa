@@ -26,9 +26,9 @@ public class Utils {
         this.context = context;
     }
 
-   // private static String Domain = "http://borsa.herokuapp.com";
-//   private static String Domain = "http://www.zeowls.com:41384";
-    private static String Domain = "http://192.168.0.101:8080";
+//    private static String Domain = "http://borsa.herokuapp.com";
+   private static String Domain = "http://www.zeowls.com:41384";
+//    private static String Domain = "http://192.168.0.101:8080";
 
     private static String getRequest(String url) throws IOException {
         String data;

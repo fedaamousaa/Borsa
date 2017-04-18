@@ -36,11 +36,13 @@
             android:parentActivityName=".Activities.MainActivity" />
         <activity
             android:name=".Activities.CompaniesDetailsActivity"
-            android:parentActivityName=".Activities.MainActivity"
-            android:screenOrientation="landscape" />
+            android:parentActivityName=".Activities.MainActivity" />
+        <!-- android:screenOrientation="landscape" /> -->
         <activity
             android:name=".Activities.ProfileActivity"
             android:parentActivityName=".Activities.MainActivity" />
+
+
     </application>
 
 </manifest>
