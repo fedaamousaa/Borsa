@@ -22,6 +22,13 @@ public class MainActivity extends AppCompatActivity implements MarketOverViewFra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                        .build());
+
         setContentView(R.layout.activity_main);
         actionBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(actionBar);

@@ -228,7 +228,7 @@ public class ProfileActivity extends AppCompatActivity {
                 pref_edit.clear();
                 pref_edit.apply();
                 finish();
-                invalidateOptionsMenu();
+//                invalidateOptionsMenu();
                 break;
         }
         return super.onOptionsItemSelected(item);

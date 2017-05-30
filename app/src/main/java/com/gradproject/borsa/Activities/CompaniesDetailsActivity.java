@@ -17,6 +17,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,6 +31,7 @@ import com.gradproject.borsa.DataModel.Stock;
 import com.gradproject.borsa.DataModel.StockValue;
 import com.gradproject.borsa.Fargments.BuyDialogFragment;
 import com.gradproject.borsa.R;
+import com.gradproject.borsa.UIHelper.DayAxisValueFormatter;
 import com.gradproject.borsa.UIHelper.Utils;
 
 import org.json.JSONArray;
@@ -276,8 +278,8 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
         protected void onPostExecute(ArrayList<StockValue> jsonArray) {
 
             XAxis xAxis = chart.getXAxis();
-//            IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(chart);
-//            xAxis.setValueFormatter(xAxisFormatter);
+            IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(chart);
+            xAxis.setValueFormatter(xAxisFormatter);
 //            xAxis.setTextSize(11f);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
