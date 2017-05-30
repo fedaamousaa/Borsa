@@ -66,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
         phone = (TextView) findViewById(R.id.phone);
         cusromer_stocks = (ListView) findViewById(R.id.user_stock);
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        user_id = pref.getInt("Id", -1);
+        user_id = pref.getInt("id_customer", -1);
         if (user_id != -1) {
             new ExcuteNetwork().execute();
         } else
@@ -190,7 +190,7 @@ public class ProfileActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.login);
         MenuItem log_out = menu.findItem(R.id.sign_out);
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int user_id = pref.getInt("Id", -1);
+        int user_id = pref.getInt("id_customer", -1);
         if (user_id == -1) {
             log_out.setVisible(false);
             item.setVisible(true);
@@ -208,10 +208,10 @@ public class ProfileActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
 
-//            case R.id.settings:
-//                Intent n = new Intent(ProfileActivity.this, SettingsActivity.class);
-//                startActivity(n);
-//                break;
+            case R.id.search:
+                Intent n = new Intent(ProfileActivity.this, SearchActivity.class);
+                startActivity(n);
+                break;
             case R.id.news:
                 Intent intent = new Intent(ProfileActivity.this, NewsActivity.class);
                 startActivity(intent);
@@ -219,7 +219,7 @@ public class ProfileActivity extends AppCompatActivity {
             case R.id.sign_out:
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor pref_edit = preferences.edit();
-                pref_edit.putInt("Id", -1);
+                pref_edit.putInt("id_customer", -1);
                 pref_edit.clear();
                 pref_edit.apply();
                 finish();
@@ -249,7 +249,7 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             Gson gson = new Gson();
-            for (int i = 0; i <= user_stock.length(); i++) {
+            for (int i = 0; i < user_stock.length(); i++) {
                 try {
                     stockArray.add(gson.fromJson(user_stock.getJSONObject(i).toString(), UserStocks.class));
                 } catch (JSONException e) {

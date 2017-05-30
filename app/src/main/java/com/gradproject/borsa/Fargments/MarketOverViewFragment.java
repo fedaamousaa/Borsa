@@ -1,7 +1,6 @@
 package com.gradproject.borsa.Fargments;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -10,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,11 +40,11 @@ import io.realm.Realm;
 
 public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private FragmentInteractionListener Listener;
-    GridView company_list,EGX_list;
+    GridView company_list;
     JSONArray array = new JSONArray();
     TextView companyNameText, last_price, day_change, day_percent,type;
-    ArrayList<Stock> stockArray,egxArray;
-    stockAdapter c,adapter;
+    ArrayList<Stock> stockArray;
+    stockAdapter adapter;
     Realm realm;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -55,16 +55,13 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_market_over_view, container, false);
         company_list = (GridView) view.findViewById(R.id.company_list);
-//        EGX_list=(GridView)view.findViewById(R.id.EGX_list);
-//        egxArray=new ArrayList<>(realm.where(Stock.class).equalTo("type",2).findAll());
-//        adapter=new stockAdapter(getActivity(), R.layout.companies_list_item, egxArray);
-//        EGX_list.setAdapter(adapter);
 
         stockArray = new ArrayList<>(realm.where(Stock.class).equalTo("type",0).findAll());
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
-        c = new stockAdapter(getActivity(), R.layout.companies_list_item, stockArray);
-        company_list.setAdapter(c);
+        adapter = new stockAdapter(getActivity(), R.layout.companies_list_item, stockArray);
+        company_list.setAdapter(adapter);
+
         new ExcuteNetworkOperation().execute();
 
         return view;
@@ -104,12 +101,6 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
                 day_percent = (TextView) convertView.findViewById(R.id.day_percent);
                 type=(TextView)convertView.findViewById(R.id.market_type);
 
-//                int stockCount = realm.where(Stock.class).findAll().size();
-//                int templatesCount = realm.where(Company.class).findAll().size();
-//
-//                Log.d("stock company count ", stockCount + " " + templatesCount);
-
-
                 companyNameText.setText(mCompanies.get(position).getCompany().getName() + " (" + mCompanies.get(position).getCompany().getSymbol() + ")");
                 double price_last = mCompanies.get(position).getCurrent_value();
                 last_price.setText("" + roundTwoDecimals(price_last) + "");
@@ -119,15 +110,14 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
                     double change = (mCompanies.get(position).getCurrent_value() / mCompanies.get(position).getLast_value()) * 100;
                     day_percent.setText("+" + roundTwoDecimals(change) + "%");
                     day_change.setText("+" + roundTwoDecimals((mCompanies.get(position).getCurrent_value() - mCompanies.get(position).getLast_value())) + "");
-//                    day_percent.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
-//                    company_list.setBackground(getResources().getDrawable(R.drawable.gradient_green_color));
+
                     day_percent.setTextColor(getResources().getColor(android.R.color.black));
                     convertView.setBackground(getResources().getDrawable(R.drawable.gradient_green_color));
                 } else {
                     double change = (mCompanies.get(position).getCurrent_value() / mCompanies.get(position).getLast_value()) * 100;
                     day_percent.setText("-" + roundTwoDecimals(change) + "%");
                     day_change.setText("-" + roundTwoDecimals((mCompanies.get(position).getLast_value() - mCompanies.get(position).getCurrent_value())) + "");
-//                    day_percent.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+
                     day_percent.setTextColor(getResources().getColor(android.R.color.black));
                     convertView.setBackground(getResources().getDrawable(R.drawable.gradient_red_color));
                 }
@@ -188,57 +178,60 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
                 stockArray.clear();
-                c.notifyDataSetChanged();
-            }else {
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-            }
+//                adapter.notifyDataSetChanged();
+                try {
+                    for (int i = 0; i < array.length(); i++) {
 
-            try {
-                for (int i = 0; i < array.length(); i++) {
+                        Gson gson = new Gson();
 
-                    Gson gson = new Gson();
-
-                    JSONObject object = array.getJSONObject(i);
+                        JSONObject object = array.getJSONObject(i);
 //                    int id = object.getInt("id");
 //                    int type = object.getInt("type");
 //                    double current_value = object.getDouble("current_value");
 //                    double last_value = object.getDouble("last_value");
 
-                    JSONObject companyObject = object.getJSONObject("company");
+                        JSONObject companyObject = object.getJSONObject("company");
 //                    int com_id = companyObject.getInt("id");
 //                    String name = companyObject.getString("name");
 //                    String phone = companyObject.getString("phone");
 //                    String address = companyObject.getString("address");
 //                    String symbol = companyObject.getString("symbol");
 
-                    Company company = gson.fromJson(companyObject.toString(), Company.class);
+                        Company company = gson.fromJson(companyObject.toString(), Company.class);
 //                    company.setId(com_id);
 //                    company.setName(name);
 //                    company.setPhone(phone);
 //                    company.setSymbol(symbol);
 
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(company);
-                    realm.commitTransaction();
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(company);
+                        realm.commitTransaction();
 
 
-                    Stock stock = gson.fromJson(object.toString(), Stock.class);
+                        Stock stock = gson.fromJson(object.toString(), Stock.class);
 //                    stock.setId(id);
 //                    stock.setType(type);
 //                    stock.setCurrent_value(current_value);
 //                    stock.setLast_value(last_value);
 //                    stock.setCompany(company);
 
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(stock);
-                    realm.commitTransaction();
-                    stockArray.add(stock);
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(stock);
+                        realm.commitTransaction();
+                        stockArray.add(stock);
+                    }
+                    Log.e("Stock Array", stockArray.toString());
+                    swipeRefreshLayout.setRefreshing(false);
+                    adapter.notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                Log.e("Stock Array", stockArray.toString());
-                swipeRefreshLayout.setRefreshing(false);
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+            }else {
+                Toast.makeText(getActivity(), "No Internet Connection" , Toast.LENGTH_SHORT).show();
             }
+
 
 
             super.onPostExecute(s);

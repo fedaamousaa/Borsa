@@ -2,6 +2,8 @@ package com.gradproject.borsa.UIHelper;
 
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -26,8 +28,8 @@ public class Utils {
         this.context = context;
     }
 
-//    private static String Domain = "http://borsa.herokuapp.com";
-   private static String Domain = "http://www.zeowls.com:41384";
+    private static String Domain = "http://borsa.herokuapp.com";
+//   private static String Domain = "http://www.zeowls.com:41384";
 //    private static String Domain = "http://192.168.0.101:8080";
 
     private static String getRequest(String url) throws IOException {
@@ -166,6 +168,14 @@ public class Utils {
         String formated = decimalFormat.format(value);
         return formated;
     }
+
+
+    public static boolean isConnected(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo!= null&& networkInfo.isConnected();
+    }
+
 
 
 }

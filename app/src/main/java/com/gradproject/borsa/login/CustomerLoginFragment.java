@@ -64,8 +64,6 @@ public class CustomerLoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 new ExcuteNetworkOperation().execute();
-//                Intent intent=new Intent(getActivity(), ProfileActivity.class);
-//                getActivity().startActivity(intent);
             }
         });
         return view;
@@ -123,7 +121,7 @@ public class CustomerLoginFragment extends Fragment {
                     default:
                         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
                         SharedPreferences.Editor pref_edit = pref.edit();
-                        pref_edit.putInt("Id", resp);
+                        pref_edit.putInt("id_customer", resp);
                         pref_edit.apply();
                         mCallback.onAction(true);
                 }

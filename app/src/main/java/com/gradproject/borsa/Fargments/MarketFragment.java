@@ -18,23 +18,22 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.gradproject.borsa.Activities.CompaniesDetailsActivity;
-import com.gradproject.borsa.DataModel.Company;
 import com.gradproject.borsa.DataModel.Stock;
 import com.gradproject.borsa.R;
 
 import org.json.JSONArray;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MarketFragment extends Fragment {
 
     TabLayout tabLayout;
     ViewPager viewPager;
 
-    ArrayList<Stock> egxArray;
+    RealmResults<Stock> egxArray;
 
     JSONArray array = new JSONArray();
 
@@ -52,13 +51,12 @@ public class MarketFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_market,container,false);
         viewPager=(ViewPager)view.findViewById(R.id.pager);
         viewPager.setAdapter(new CustomAdarter(getSupportFragmentManager(),getContext()));
+        EGX=(GridView)view.findViewById(R.id.EGX_list);
 
-//        EGX=(GridView)view.findViewById(R.id.EGX_list);
-//        egxArray=new ArrayList<>(realm.where(Stock.class).equalTo("type",2).findAll());
-//        adapter=new egxAdapter(getActivity(), R.layout.companies_list_item, egxArray);
-//        EGX.setAdapter(adapter);
-
-//        new ExcuteNetworkOperation().execute();
+        egxArray = realm.where(Stock.class).equalTo("type", 2).findAll();
+        adapter=new egxAdapter(getActivity(), R.layout.companies_list_item, egxArray);
+       EGX.setAdapter(adapter);
+        Log.e("EGX Array", egxArray.toString());
 
         tabLayout=(TabLayout)view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -80,10 +78,12 @@ public class MarketFragment extends Fragment {
         });
         return view;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Initialize Realm
+        Realm.init(getActivity());
+        realm = Realm.getDefaultInstance();
     }
 
     public FragmentManager getSupportFragmentManager() {
@@ -122,9 +122,9 @@ public class MarketFragment extends Fragment {
     }
     public class egxAdapter extends ArrayAdapter {
 
-        ArrayList<Stock> mCompanies;
+        RealmResults<Stock> mCompanies;
 
-        egxAdapter(Context context, int resource, ArrayList<Stock> companies) {
+        egxAdapter(Context context, int resource, RealmResults<Stock> companies) {
             super(context, resource, companies);
             mCompanies = companies;
         }
@@ -139,11 +139,6 @@ public class MarketFragment extends Fragment {
                 day_change = (TextView) convertView.findViewById(R.id.day_change);
                 day_percent = (TextView) convertView.findViewById(R.id.day_percent);
                 type=(TextView)convertView.findViewById(R.id.market_type);
-
-                int stockCount = realm.where(Stock.class).equalTo("type",2).findAll().size();
-                int templatesCount = realm.where(Company.class).findAll().size();
-
-                Log.d("stock company count ", stockCount + " " + templatesCount);
 
 
                 companyNameText.setText(mCompanies.get(position).getCompany().getName() + " (" + mCompanies.get(position).getCompany().getSymbol() + ")");
@@ -177,7 +172,9 @@ public class MarketFragment extends Fragment {
                         // ToDo
                         Intent intent = new Intent(getContext(), CompaniesDetailsActivity.class);
                         int id = mCompanies.get(position).getId();
+                        int type=mCompanies.get(position).getType();
                         intent.putExtra("item", id);
+                        intent.putExtra("type", type);
                         getContext().startActivity(intent);
                     }
                 });
@@ -193,65 +190,5 @@ public class MarketFragment extends Fragment {
         }
 
     }
-//    public class ExcuteNetworkOperation extends AsyncTask<Void, Void, String> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected String doInBackground(Void... params) {
-//
-//
-//            try {
-//                array = Utils.getAllStocks();
-//
-//            } catch (IOException | JSONException e) {
-//                e.printStackTrace();
-//
-//            }
-//
-//            return array.toString();
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//
-//            ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-//            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-//            if (networkInfo != null && networkInfo.isConnected()) {
-//                egxArray.clear();
-//                adapter.notifyDataSetChanged();
-//            }else {
-//                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            try {
-//                for (int i = 0; i < array.length(); i++) {
-//
-//                    Gson gson = new Gson();
-//
-//                    JSONObject object = array.getJSONObject(i);
-//
-//                    JSONObject companyObject = object.getJSONObject("company");
-//
-//                    Company company = gson.fromJson(companyObject.toString(), Company.class);
-//
-//                    Stock stock = gson.fromJson(object.toString(), Stock.class);
-//
-//
-//                }
-//                Log.e("Stock Array", egxArray.toString());
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//            super.onPostExecute(s);
-//
-//        }
-//    }
 
 }

@@ -41,8 +41,7 @@
         <activity
             android:name=".Activities.ProfileActivity"
             android:parentActivityName=".Activities.MainActivity" />
-
-
+        <activity android:name=".Activities.SearchActivity"></activity>
     </application>
 
 </manifest>

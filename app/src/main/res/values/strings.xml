@@ -4,6 +4,7 @@
     <string name="company_name">company name</string>
     <string name="stock">stock</string>
     <string name="buy">buy</string>
+    <string name="search_hint">search</string>
     <string name="sell">sell</string>
     <string name="log_in">log_in</string>
     <string name="menuimage">menuimage</string>

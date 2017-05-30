@@ -121,7 +121,7 @@ public class BuyDialogFragment extends DialogFragment {
         });
         stock_num = (TextView) v.findViewById(R.id.stock_number_v);
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        user_id = pref.getInt("Id", -1);
+        user_id = pref.getInt("id_customer", -1);
         b.setView(v);
         return b.create();
 
@@ -166,7 +166,7 @@ public class BuyDialogFragment extends DialogFragment {
                     default:
                         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mActivity.getBaseContext());
                         SharedPreferences.Editor pref_edit = pref.edit();
-                        pref_edit.putInt("Id", response);
+                        pref_edit.putInt("id", response);
                         pref_edit.apply();
                         Log.d("response",String.valueOf(response));
                 }

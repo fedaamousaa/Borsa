@@ -2,9 +2,6 @@ package com.gradproject.borsa.Fargments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,31 +13,24 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.gradproject.borsa.Activities.CompaniesDetailsActivity;
-import com.gradproject.borsa.DataModel.Company;
 import com.gradproject.borsa.DataModel.Stock;
 import com.gradproject.borsa.R;
-import com.gradproject.borsa.UIHelper.Utils;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class BondMarketFragment extends Fragment {
 
     GridView Bond;
     JSONArray array = new JSONArray();
     TextView companyNameText, last_price, day_change, day_percent,type;
-    ArrayList<Stock> bondArray;
+    RealmResults<Stock> bondArray;
     bondAdapter adapter;
     Realm realm;
 
@@ -49,19 +39,27 @@ public class BondMarketFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.activity_bond_market_fragment,container,false);
         Bond=(GridView)view.findViewById(R.id.bond);
-//
-//        bondArray=new ArrayList<>(realm.where(Stock.class).equalTo("type",1).findAll());
-//        adapter=new bondAdapter(getActivity(), R.layout.companies_list_item, bondArray);
-//        Bond.setAdapter(adapter);
 
-//        new NetworkOperation().execute();
+       bondArray = realm.where(Stock.class).equalTo("type", 1).findAll();
+        adapter=new bondAdapter(getActivity(), R.layout.companies_list_item, bondArray);
+        Bond.setAdapter(adapter);
+        Log.e("Bond Array", bondArray.toString());
+
         return view;
     }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Initialize Realm
+        Realm.init(getActivity());
+        realm = Realm.getDefaultInstance();
+    }
+
     public class bondAdapter extends ArrayAdapter {
 
-        ArrayList<Stock> mCompanies;
+        RealmResults<Stock> mCompanies;
 
-        bondAdapter(Context context, int resource, ArrayList<Stock> companies) {
+        bondAdapter(Context context, int resource, RealmResults<Stock> companies) {
             super(context, resource, companies);
             mCompanies = companies;
         }
@@ -77,10 +75,6 @@ public class BondMarketFragment extends Fragment {
                 day_percent = (TextView) convertView.findViewById(R.id.day_percent);
                 type=(TextView)convertView.findViewById(R.id.market_type);
 
-//                int stockCount = realm.where(Stock.class).findAll().size();
-//                int templatesCount = realm.where(Company.class).findAll().size();
-//
-//                Log.d("stock company count ", stockCount + " " + templatesCount);
 
 
                 companyNameText.setText(mCompanies.get(position).getCompany().getName() + " (" + mCompanies.get(position).getCompany().getSymbol() + ")");
@@ -133,74 +127,5 @@ public class BondMarketFragment extends Fragment {
     double roundTwoDecimals(double d) {
         DecimalFormat twoDForm = new DecimalFormat("#.##");
         return Double.valueOf(twoDForm.format(d));
-    }
-    public class NetworkOperation extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-
-            try {
-                array = Utils.getAllStocks();
-
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-
-            }
-
-            return array.toString();
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-
-            ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnected()) {
-               bondArray.clear();
-                adapter.notifyDataSetChanged();
-            }else {
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-            }
-
-            try {
-                for (int i = 0; i < array.length(); i++) {
-
-                    Gson gson = new Gson();
-
-                    JSONObject object = array.getJSONObject(i);
-
-                    JSONObject companyObject = object.getJSONObject("company");
-
-                    Company company = gson.fromJson(companyObject.toString(), Company.class);
-
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(company);
-                    realm.commitTransaction();
-
-
-                    Stock stock = gson.fromJson(object.toString(), Stock.class);
-
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(stock);
-                    realm.commitTransaction();
-                    bondArray.add(stock);
-                }
-                Log.e("Stock Array", bondArray.toString());
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            super.onPostExecute(s);
-
-        }
     }
 }

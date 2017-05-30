@@ -16,12 +16,12 @@
         android:title="@string/news"
         android:orderInCategory="100"
         app:showAsAction="never" />
-    <!--<item-->
-        <!--android:id="@+id/settings"-->
-        <!--android:icon="@drawable/settings"-->
-        <!--android:title="settings"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/settings"
+        android:title="Search"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/sign_out"

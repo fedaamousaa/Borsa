@@ -10,10 +10,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.facebook.stetho.Stetho;
 import com.gradproject.borsa.Fargments.MarketFragment;
 import com.gradproject.borsa.Fargments.MarketOverViewFragment;
 import com.gradproject.borsa.R;
 import com.gradproject.borsa.login.LoginDialogFragment;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 public class MainActivity extends AppCompatActivity implements MarketOverViewFragment.FragmentInteractionListener {
     Toolbar actionBar;
@@ -28,6 +30,13 @@ public class MainActivity extends AppCompatActivity implements MarketOverViewFra
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_apps_black_24dp);
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MarketFragment()).commit();
+
+
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                        .build());
 
     }
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements MarketOverViewFra
             case R.id.news:
                 Intent intent=new Intent(MainActivity.this,NewsActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.search:
+                Intent in=new Intent(MainActivity.this,SearchActivity.class);
+                startActivity(in);
                 break;
         }
         return super.onOptionsItemSelected(item);
