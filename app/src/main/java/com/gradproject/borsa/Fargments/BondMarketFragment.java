@@ -64,6 +64,11 @@ public class BondMarketFragment extends Fragment {
             mCompanies = companies;
         }
 
+        @Override
+        public int getCount() {
+            return mCompanies.size();
+        }
+
         @NonNull
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {

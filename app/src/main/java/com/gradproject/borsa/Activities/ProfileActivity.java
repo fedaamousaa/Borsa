@@ -89,6 +89,11 @@ public class ProfileActivity extends AppCompatActivity {
             mStock = stocks;
         }
 
+        @Override
+        public int getCount() {
+            return mStock.size();
+        }
+
         @NonNull
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
@@ -175,7 +180,7 @@ public class ProfileActivity extends AppCompatActivity {
                 realm.commitTransaction();
 
                 name.setText(customer.getFirst_name() + " " + customer.getLast_name());
-                mail.setText(customer.getE_mail());
+                mail.setText(customer.getEmail());
                 phone.setText(customer.getPhone());
                 Toast.makeText(getBaseContext(), "welcome " + customer.getFirst_name() + " " + customer.getLast_name(), Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {

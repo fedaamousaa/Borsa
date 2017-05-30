@@ -17,8 +17,8 @@ public class Customer extends RealmObject {
     String first_name;
     @SuppressWarnings("last_name")
     String last_name;
-    @SerializedName("e_mail")
-    String e_mail;
+    @SerializedName("email")
+    String email;
     @SuppressWarnings("phone")
     String phone;
     @SerializedName("stock_nomber")
@@ -56,12 +56,12 @@ public class Customer extends RealmObject {
         this.last_name = last_name;
     }
 
-    public String getE_mail() {
-        return e_mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setE_mail(String e_mail) {
-        this.e_mail = e_mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhone() {

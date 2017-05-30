@@ -238,7 +238,7 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
 
                 final Calendar c = Calendar.getInstance();
 
-                if (!stockValues.isEmpty())
+//                if (!stockValues.isEmpty())
                     for (int i = 0; i < graph_values.length(); i++) {
 //                    Gson gson = new Gson();
 //                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -260,7 +260,9 @@ public class CompaniesDetailsActivity extends AppCompatActivity implements OnMap
                         if (value > maxValue) {
                             maxValue = value;
                         }
-                        entries.add(new Entry(i, (float) roundTwoDecimals(value)));
+//                        for(int x=0;x<Integer.parseInt(date.toString());x++){
+                        entries.add(new Entry(i , (float) roundTwoDecimals(value)));
+//                    }
                     }
 //                graph(stockValues);
             } catch (IOException | JSONException e) {
