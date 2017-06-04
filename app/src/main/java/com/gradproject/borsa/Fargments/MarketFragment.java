@@ -41,24 +41,24 @@ public class MarketFragment extends Fragment {
 
     egxAdapter adapter;
 
-    TextView companyNameText, last_price, day_change, day_percent,type;
+    TextView companyNameText, last_price, day_change, day_percent, type;
 
     GridView EGX;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_market,container,false);
-        viewPager=(ViewPager)view.findViewById(R.id.pager);
-        viewPager.setAdapter(new CustomAdarter(getSupportFragmentManager(),getContext()));
-        EGX=(GridView)view.findViewById(R.id.EGX_list);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_market, container, false);
+        viewPager = (ViewPager) view.findViewById(R.id.pager);
+        viewPager.setAdapter(new CustomAdarter(getSupportFragmentManager(), getContext()));
+        EGX = (GridView) view.findViewById(R.id.EGX_list);
 
         egxArray = realm.where(Stock.class).equalTo("type", 2).findAll();
-        adapter=new egxAdapter(getActivity(), R.layout.companies_list_item, egxArray);
-       EGX.setAdapter(adapter);
+        adapter = new egxAdapter(getActivity(), R.layout.companies_list_item, egxArray);
+        EGX.setAdapter(adapter);
         Log.e("EGX Array", egxArray.toString());
 
-        tabLayout=(TabLayout)view.findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -78,6 +78,7 @@ public class MarketFragment extends Fragment {
         });
         return view;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,21 +92,19 @@ public class MarketFragment extends Fragment {
     }
 
     private class CustomAdarter extends FragmentPagerAdapter {
-        private String fragments []={"Stock Market","Bond Market"};
+        private String fragments[] = {"Stock Market", "Bond Market"};
+
         public CustomAdarter(FragmentManager supportFragmentManager, Context applicationContext) {
             super(supportFragmentManager);
         }
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
+            switch (position) {
                 case 0:
                     return new MarketOverViewFragment();
-
                 case 1:
                     return new BondMarketFragment();
-
-
             }
             return null;
         }
@@ -120,6 +119,7 @@ public class MarketFragment extends Fragment {
             return fragments[position];
         }
     }
+
     public class egxAdapter extends ArrayAdapter {
 
         RealmResults<Stock> mCompanies;
@@ -138,7 +138,7 @@ public class MarketFragment extends Fragment {
                 last_price = (TextView) convertView.findViewById(R.id.last_price);
                 day_change = (TextView) convertView.findViewById(R.id.day_change);
                 day_percent = (TextView) convertView.findViewById(R.id.day_percent);
-                type=(TextView)convertView.findViewById(R.id.market_type);
+                type = (TextView) convertView.findViewById(R.id.market_type);
 
 
                 companyNameText.setText(mCompanies.get(position).getCompany().getName() + " (" + mCompanies.get(position).getCompany().getSymbol() + ")");
@@ -160,8 +160,7 @@ public class MarketFragment extends Fragment {
                     convertView.setBackground(getResources().getDrawable(R.drawable.gradient_red_color));
                 }
 
-                if (mCompanies.get(position).getType()==2)
-                {
+                if (mCompanies.get(position).getType() == 2) {
                     type.setText("egx");
                 }
 
@@ -172,7 +171,7 @@ public class MarketFragment extends Fragment {
                         // ToDo
                         Intent intent = new Intent(getContext(), CompaniesDetailsActivity.class);
                         int id = mCompanies.get(position).getId();
-                        int type=mCompanies.get(position).getType();
+                        int type = mCompanies.get(position).getType();
                         intent.putExtra("item", id);
                         intent.putExtra("type", type);
                         getContext().startActivity(intent);
@@ -184,6 +183,7 @@ public class MarketFragment extends Fragment {
 
             return convertView;
         }
+
         double roundTwoDecimals(double d) {
             DecimalFormat twoDForm = new DecimalFormat("#.##");
             return Double.valueOf(twoDForm.format(d));

@@ -7,11 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +40,6 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
     private FragmentInteractionListener Listener;
     GridView company_list;
     JSONArray array = new JSONArray();
-    TextView companyNameText, last_price, day_change, day_percent,type;
     ArrayList<Stock> stockArray;
     stockAdapter adapter;
     Realm realm;
@@ -81,74 +78,65 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
     }
 
 
-    public class stockAdapter extends ArrayAdapter {
+    public class stockAdapter extends ArrayAdapter<Stock> implements View.OnClickListener{
 
         ArrayList<Stock> mCompanies;
+        TextView companyNameText, last_price, day_change, day_percent,type;
 
         stockAdapter(Context context, int resource, ArrayList<Stock> companies) {
             super(context, resource, companies);
             mCompanies = companies;
         }
 
-        @NonNull
+
+
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.companies_list_item, parent, false);
-                companyNameText = (TextView) convertView.findViewById(R.id.company_text_view);
-                last_price = (TextView) convertView.findViewById(R.id.last_price);
-                day_change = (TextView) convertView.findViewById(R.id.day_change);
-                day_percent = (TextView) convertView.findViewById(R.id.day_percent);
-                type=(TextView)convertView.findViewById(R.id.market_type);
-
-                companyNameText.setText(mCompanies.get(position).getCompany().getName() + " (" + mCompanies.get(position).getCompany().getSymbol() + ")");
-                double price_last = mCompanies.get(position).getCurrent_value();
-                last_price.setText("" + roundTwoDecimals(price_last) + "");
-
-                if (mCompanies.get(position).getCurrent_value() > mCompanies.get(position).getLast_value()) {
-
-                    double change = (mCompanies.get(position).getCurrent_value() / mCompanies.get(position).getLast_value()) * 100;
-                    day_percent.setText("+" + roundTwoDecimals(change) + "%");
-                    day_change.setText("+" + roundTwoDecimals((mCompanies.get(position).getCurrent_value() - mCompanies.get(position).getLast_value())) + "");
-
-                    day_percent.setTextColor(getResources().getColor(android.R.color.black));
-                    convertView.setBackground(getResources().getDrawable(R.drawable.gradient_green_color));
-                } else {
-                    double change = (mCompanies.get(position).getCurrent_value() / mCompanies.get(position).getLast_value()) * 100;
-                    day_percent.setText("-" + roundTwoDecimals(change) + "%");
-                    day_change.setText("-" + roundTwoDecimals((mCompanies.get(position).getLast_value() - mCompanies.get(position).getCurrent_value())) + "");
-
-                    day_percent.setTextColor(getResources().getColor(android.R.color.black));
-                    convertView.setBackground(getResources().getDrawable(R.drawable.gradient_red_color));
-                }
-
-                if (mCompanies.get(position).getType()==0)
-                {
-                    type.setText("stock");
-                }
-
-
-                convertView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // ToDo
-                        Intent intent = new Intent(getContext(), CompaniesDetailsActivity.class);
-                        int id = mCompanies.get(position).getId();
-                        intent.putExtra("item", id);
-                        getContext().startActivity(intent);
-                    }
-                });
-
             }
+            companyNameText = (TextView) convertView.findViewById(R.id.company_text_view);
+            last_price = (TextView) convertView.findViewById(R.id.last_price);
+            day_change = (TextView) convertView.findViewById(R.id.day_change);
+            day_percent = (TextView) convertView.findViewById(R.id.day_percent);
+            type=(TextView)convertView.findViewById(R.id.market_type);
+            companyNameText.setText(mCompanies.get(position).getCompany().getName() + " (" + mCompanies.get(position).getCompany().getSymbol() + ")");
+            double price_last = mCompanies.get(position).getCurrent_value();
+            last_price.setText("" + roundTwoDecimals(price_last) + "");
 
-
+            if (mCompanies.get(position).getCurrent_value() > mCompanies.get(position).getLast_value()) {
+                double change = (mCompanies.get(position).getCurrent_value() / mCompanies.get(position).getLast_value()) * 100;
+                day_percent.setText("+" + roundTwoDecimals(change) + "%");
+                day_change.setText("+" + roundTwoDecimals((mCompanies.get(position).getCurrent_value() - mCompanies.get(position).getLast_value())) + "");
+                day_percent.setTextColor(getResources().getColor(android.R.color.black));
+                convertView.setBackground(getResources().getDrawable(R.drawable.gradient_green_color));
+            } else {
+                double change = (mCompanies.get(position).getCurrent_value() / mCompanies.get(position).getLast_value()) * 100;
+                day_percent.setText("-" + roundTwoDecimals(change) + "%");
+                day_change.setText("-" + roundTwoDecimals((mCompanies.get(position).getLast_value() - mCompanies.get(position).getCurrent_value())) + "");
+                day_percent.setTextColor(getResources().getColor(android.R.color.black));
+                convertView.setBackground(getResources().getDrawable(R.drawable.gradient_red_color));
+            }
+            convertView.setTag(position);
+            if (mCompanies.get(position).getType()==0)
+            {
+                type.setText("stock");
+            }
+            convertView.setOnClickListener(this);
             return convertView;
         }
 
 
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getContext(), CompaniesDetailsActivity.class);
+            int id = mCompanies.get((Integer) v.getTag()).getId();
+            intent.putExtra("item", id);
+            getContext().startActivity(intent);
+        }
     }
 
-    public class ExcuteNetworkOperation extends AsyncTask<Void, Void, String> {
+    class ExcuteNetworkOperation extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -177,7 +165,7 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
             ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
-                stockArray.clear();
+//                stockArray.clear();
 //                adapter.notifyDataSetChanged();
                 try {
                     for (int i = 0; i < array.length(); i++) {
@@ -218,11 +206,11 @@ public class MarketOverViewFragment extends Fragment implements SwipeRefreshLayo
                         realm.beginTransaction();
                         realm.copyToRealmOrUpdate(stock);
                         realm.commitTransaction();
-                        stockArray.add(stock);
+//                        stockArray.add(stock);
                     }
-                    Log.e("Stock Array", stockArray.toString());
-                    swipeRefreshLayout.setRefreshing(false);
-                    adapter.notifyDataSetChanged();
+//                    Log.e("Stock Array", stockArray.toString());
+//                    swipeRefreshLayout.setRefreshing(false);
+//                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
